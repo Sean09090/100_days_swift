@@ -6,6 +6,8 @@
 //  Copyright © 2019 Sean Dickson. All rights reserved.
 //
 
+// Main ViewController for table of rows
+
 // UIKit == "User Interface Kit": Responsible for all these nice methods we call upon
 import UIKit
 
@@ -16,6 +18,9 @@ class ViewController: UITableViewController { // 'ViewController' inherits from 
     // 'viewDidLoad()' is like main! It is the control center for the view of your app
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         let fm = FileManager.default // Creating a "file manager" -- object which can search through directories
         let path = Bundle.main.resourcePath! // Not sure how this works! But it creates the path to 'Content' dir
@@ -41,6 +46,12 @@ class ViewController: UITableViewController { // 'ViewController' inherits from 
         return cell
     }
     
-    
+    // Does an action when row is selected -- in this case moves it to the detailViewController
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.selectedImage = pictures[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 }
 
